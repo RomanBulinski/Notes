@@ -14,16 +14,6 @@
 
 
 
-
-#frame {
-    background: rgb(121, 122, 122);
-    width: 250px;
-    height: 150px;
-    border: 1px solid rgb(180, 177, 177);
-    border-radius: 10px; 
-
-}
-
 .frame_body {
     background: rgb(121, 122, 122);
     width: 250px;
@@ -31,54 +21,52 @@
     border: 1px solid rgb(180, 177, 177);
     border-radius: 10px; 
     position: absolute;
+
+    left: 100px;
+    top: 50px;
+
     z-index: 9
-}
-
-
-#frameheader {
-    padding: 10px;
-    background-color: #2196F3;
-    color: #fff;
+    position: relative;
 }
 
 .header_body {
     padding: 10px;
     cursor: move;
-    z-index: 10;
-    background-color: #2196F3;
+    z-index: 9;
     color: #fff;
+    border-radius: 10px; 
+    height: 20px;
 }
 
-
-
-
-#cancel_button{
+.cancelbutton{
     background: white;
-    width: 100px;
+    width: 70px;
     height: 30px;
-    border: 1px solid black;
-    border-radius: 3px; 
+    /* border: 1px solid black; */
+    border-radius: 5px; 
     color: black;
-    padding: 10px 10px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 10px; 
+    font-size: 20px;
+ 
     z-index: 10;
+
+    position: absolute;
+    top: 5px;
+    right: 5px;
 }
 
-#text_innote {
-
+.text_innote {
     background: rgb(38, 39, 39);
     width: 100%;
     height: 100%;
-
-    color: white;
+    color: gray;
     padding: 15px 32px;
-    text-align: center;
+    text-align: left;
     text-decoration: none;
     display: inline-block;
     font-size: 16px; 
+    border-radius: 10px; 
     z-index: 10;
-
 }
