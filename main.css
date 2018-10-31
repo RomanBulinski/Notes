@@ -19,12 +19,10 @@
     border: 1px solid rgb(180, 177, 177);
     border-radius: 10px; 
     position: absolute;
-
     left: 100px;
     top: 100px;
-
     z-index: 9
-    position: relative;
+    /* position: relative; */
 }
 
 .header_body {

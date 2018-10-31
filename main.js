@@ -2,92 +2,89 @@
 
 window.addEventListener('load', loadInfoFromLocalStore );
 
+
 function loadInfoFromLocalStore(){
-  alert("LOAD");
+ 
   // localStorage.clear();
-  
+  alert("LOAD");
   var len = localStorage.length;
+  
+  console.log("local storage");
+  for (var i = 0; i < localStorage.length; i++)   {
+    console.log(localStorage.key(i) + "=[" + localStorage.getItem(localStorage.key(i)) + "]");
+  }
 
-  for ( var i = 0;  i < len; i++ ) {
-    for ( var j = i+1;  j < len; j++ ) {
+  var infoFromMemor = [];
+
+  for ( var i = 0;  i < len-2; i++ ) {  
+    for ( var j = i+1;  j < len-1; j++ ) {
       for ( var k = j+1;  k < len; k++) {
+        if( localStorage.key( i ).split("_")[0]===localStorage.key( j ).split("_")[0] && localStorage.key( i ).split("_")[0]===localStorage.key( k ).split("_")[0] ){ 
+        
+          var tempI = localStorage.key( i );
+          var tempJ = localStorage.key( j );
+          var tempK = localStorage.key( k );
+        
+          console.log( "znalazlem 3 pdoobne: "+tempI+" "+tempJ+" "+tempK );
 
-          var tem1 = localStorage.key( i ).split("_")[0];
-          // alert(tem1);
-          var tem2 = localStorage.key( j ).split("_")[0];
-          // alert(tem2);
-          var tem3 = localStorage.key( k ).split("_")[0];
+          var data = [];
+          data.push(tempI);
+          data.push(tempJ);
+          data.push(tempK);
 
-          
-          if( tem1==tem2 && tem2==tem3 ){
-            
-            var idNot = create_note();
-
-            var top =0;
-            if (localStorage.key(i).split("_")[1]=="top"){
-                top = localStorage.getItem(localStorage.key(i));
-            } else if (localStorage.key(j).split("_")[1]=="top"){
-                top = localStorage.getItem( localStorage.key(j) );
-            } else if (localStorage.key(k).split("_")[1]=="top"){
-                top = localStorage.getItem( localStorage.key(k));
+          // wszystko co znadje dodaje w kolejnoeci do zewnetrznego arraya
+          for ( var a =0; a<data.length; a++ ) {
+            if( data[a].includes("top") ){  
+              infoFromMemor.push(localStorage.getItem(data[a]));
+            } 
+          }   
+          for ( var a =0; a<data.length;a++ ) {  
+            if( data[a].includes("left") ){
+              infoFromMemor.push(localStorage.getItem(data[a]));
             }
-            console.log( "top : "+ top );
-           
-            var left =0;
-            if (localStorage.key(i).split("_")[1]=="left"){
-                left = localStorage.getItem( localStorage.key(i));
-            }else if(localStorage.key(j).split("_")[1]=="left"){
-                left = localStorage.getItem( localStorage.key(j));
-            }else if(localStorage.key(k).split("_")[1]=="left") {
-                left = localStorage.getItem( localStorage.key(k));
-            }    
-            console.log("left : " +left );
-            var textinnote ="";
-            if (localStorage.key(i).split("_")[1]=="textinnote"){
-                textinnote = localStorage.getItem( localStorage.key(i));
-            }else if(localStorage.key(j).split("_")[1]=="textinnote"){
-                textinnote = localStorage.getItem(localStorage.key(j));
-            }else if(localStorage.key(k).split("_")[1]=="textinnote"){
-                textinnote = localStorage.getItem(localStorage.key(k));
-            }
-            console.log( "text : "+ textinnote );
-
-            // console.log( document.getElementById(idNot).style[top] );
-
-            document.getElementById(idNot).style.top = top+"px";
-            document.getElementById(idNot).style.left = left+"px";
-            
-          
-            document.getElementById(idNot+"_textinnote").innerHTML=textinnote;
-          
-            i=i+2; 
           }
+          for ( var a =0; a<data.length; a++ ) { 
+            if( data[a].includes("textinnote") ){  
+              infoFromMemor.push(localStorage.getItem(data[a]));
+            }
+          }
+        }
+        // i++; 
       }
     } 
   }
+  console.log( "there is  "+infoFromMemor.length+" posytion."  )
+  console.log(infoFromMemor );
 
-  console.log( " loadeds "+len/3+"notes"  )
+  localStorage.clear();
+
+  if( infoFromMemor.length >2){
+    for ( var i = 0; i<infoFromMemor.length; i++ ) {
+        var idNot = create_note();
+        document.getElementById(idNot).style.top = infoFromMemor[i];
+        localStorage.setItem( idNot+"_top", infoFromMemor[i] );
+        i++;
+        document.getElementById(idNot).style.left = infoFromMemor[i];
+        localStorage.setItem( idNot+"_left", infoFromMemor[i] );
+        i++;
+        document.getElementById(idNot+"_textinnote").innerHTML=infoFromMemor[i];
+        localStorage.setItem( idNot+"_textinnote", infoFromMemor[i]);
+        // i++;
+    }
+  }
 }
 
-
-
-document.getElementById("createnote_button").addEventListener("click", create_note );
-
-
-
 function cancel_note(){
-
   var id_button = event.srcElement.id;
-
   var id_card = id_button.substring(0,id_button.length-3);
-
   document.getElementById(id_card).remove();
-
   localStorage.removeItem(id_card+"_textinnote");
   localStorage.removeItem(id_card+"_top");
   localStorage.removeItem(id_card+"_left");
-
 }
+
+document.getElementById("createnote_button").addEventListener("click", create_note );
+
 
 function create_note() {
 
@@ -95,13 +92,10 @@ function create_note() {
   var randomnumber = Math.floor(Math.random()*100);
   var time = new Date().getUTCMilliseconds();
   var timestamp=time +""+ randomnumber;
-
+  // main note div
   note_frame = document.createElement("div");
   note_frame.setAttribute("id", timestamp);
   note_frame.setAttribute("class", "framebody");
-
-  localStorage.setItem( timestamp+"_top", note_frame.offsetTop );
-  localStorage.setItem( timestamp+"_left", note_frame.offsetLeft);
   
   // header
       header = document.createElement("div");
@@ -120,13 +114,28 @@ function create_note() {
       text_area.setAttribute("class", "textinnote");
       text_area.setAttribute("id", timestamp+"_textinnote");
       note_frame.appendChild(text_area);
+      
       text_area.addEventListener("keypress", putTextInHTML) 
      
-  document.body.appendChild(note_frame);
+  body.appendChild(note_frame);
+
+  document.getElementById(timestamp+"_textinnote").innerHTML="...";
+
+  localStorage.setItem( timestamp+"_top", note_frame.offsetTop+"px" );
+  localStorage.setItem( timestamp+"_left", note_frame.offsetLeft+"px");
   // Make the DIV element draggable:
   dragElement(document.getElementById(timestamp));
   // return id for leater porpose
+  console.log( "stworzylem nowa karte "  )
   return timestamp;
+}
+
+function putTextInHTML(){
+  var id_textArea = event.srcElement.id;
+  var text = document.getElementById(id_textArea).value+"";
+  document.getElementById(id_textArea).innerHTML = text;
+  localStorage.setItem( id_textArea, text);
+  console.log( "wprowadzilem tekst na karte"  ) 
 }
 
 
@@ -170,34 +179,18 @@ function dragElement(elmnt) {
     document.onmouseup = null;
     document.onmousemove = null;
 
-    var idheader = event.srcElement.id;
-    var len = idheader.length;
-    var pureid = idheader.substr(0, len - 6);
-    var frame = document.getElementById(pureid);
+    var idHeader = event.srcElement.id;
+    var len = idHeader.length;
+    var idFrameNote = idHeader.substr(0, len - 6);
+    var frame = document.getElementById(idFrameNote);
 
-    // document.getElementById(pureid+"text_innote").value = frame.offsetTop +" "+frame.offsetLeft;
-    var text = document.getElementById(pureid+"_textinnote").value;
-    document.getElementById(pureid+"_textinnote").innerHTML=text;
+    // document.getElementById(idFrameNote+"text_innote").value = frame.offsetTop +" "+frame.offsetLeft;
+    var text = document.getElementById(idFrameNote+"_textinnote").value;
+    document.getElementById(idFrameNote+"_textinnote").innerHTML=text;
 
     // save posytion in local store memory
-    localStorage.setItem( pureid+"_top", frame.offsetTop );
-    localStorage.setItem( pureid+"_left", frame.offsetLeft);
+    localStorage.setItem( idFrameNote+"_top", frame.offsetTop+"px" );
+    localStorage.setItem( idFrameNote+"_left", frame.offsetLeft+"px");
 
   }
 }
-
-function putTextInHTML(){
-  var id_textArea = event.srcElement.id;
-  var text = document.getElementById(id_textArea).value+"";
-  document.getElementById(id_textArea).innerHTML = text;
-  localStorage.setItem( id_textArea, text); 
-}
-
-
-
-
-
-
-
-
-
