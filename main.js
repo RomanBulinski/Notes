@@ -111,6 +111,9 @@ function create_note() {
      
   body.appendChild(note_frame);
 
+  // setTimeout(function(){  document.getElementById(timestamp).style.width = 50; }, 3000);
+  // setTimeout(function(){  document.getElementById(timestamp).style.width = 250; }, 3000);
+
   document.getElementById(timestamp+"_textinnote").innerHTML="...";
 
   localStorage.setItem( timestamp+"_top", note_frame.offsetTop+"px" );

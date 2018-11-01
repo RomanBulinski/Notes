@@ -13,16 +13,26 @@ body{
     display: inline-block;
     font-size: 25px;
     cursor: pointer; 
+
+    animation: flash 7.3s infinite linear;
+}
+
+@keyframes flash {
+    0% {color: white;}
+	25% {color: red;}
+	50% {color: white;}
+    75% {color: grey;}
+    100% {color: white;}
 }
 
 #createnote_button:hover{
+    animation: flash_touch 1.0s infinite linear;
+}
 
-    color: rgb(228, 222, 222);
-    padding: 50px 50px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 30px; 
+@keyframes flash_touch {
+    0% {color: grey;}
+	50% {color: rgb(182, 244, 82);}
+    100% {color: grey;}
 }
 
 .framebody {
@@ -34,8 +44,20 @@ body{
     position: absolute;
     left: 100px;
     top: 100px;
-    z-index: 9
+    z-index: 9;
+    
+    transition: transform 2s ease-in-out;
+
     /* position: relative; */
+
+    /* transition-duration:4s; */
+    /* -webkit-transition-duration:4s; */
+
+}
+
+.framebody:hover {
+    background-color:rgb(82, 184, 96);
+    transform: scale(1.2);
 }
 
 .header_body {
@@ -48,7 +70,8 @@ body{
 }
 
 .cancelbutton{
-    background: rgb(121, 122, 122);
+    background: rgba(80, 221, 221, 0);
+
     width: 40px;
     height: 25px;
     /* border: 1px solid black; */
@@ -63,14 +86,15 @@ body{
     top: 5px;
     right: 5px;
     cursor: pointer;
+    /* opacity: 0.1; */
 }
 
-.cancelbutton:hover{
-  
+.cancelbutton:hover {
+    /* background-color:rgb(59, 138, 70); */
     color: black;
     font-size: 25px;
+    /* transform: scale(1.5); */
 }
-
 
 
 .textinnote {
@@ -85,6 +109,7 @@ body{
     font-size: 16px; 
     border-radius: 10px; 
     z-index: 10;
+    
 }
 
 
