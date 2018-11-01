@@ -5,8 +5,6 @@ window.addEventListener('load', loadInfoFromLocalStore );
 
 function loadInfoFromLocalStore(){
  
-  // localStorage.clear();
-  alert("LOAD");
   var len = localStorage.length;
   
   console.log("local storage");
@@ -49,13 +47,9 @@ function loadInfoFromLocalStore(){
             }
           }
         }
-        // i++; 
       }
     } 
   }
-  console.log( "there is  "+infoFromMemor.length+" posytion."  )
-  console.log(infoFromMemor );
-
   localStorage.clear();
 
   if( infoFromMemor.length >2){
@@ -69,7 +63,6 @@ function loadInfoFromLocalStore(){
         i++;
         document.getElementById(idNot+"_textinnote").innerHTML=infoFromMemor[i];
         localStorage.setItem( idNot+"_textinnote", infoFromMemor[i]);
-        // i++;
     }
   }
 }
@@ -85,9 +78,7 @@ function cancel_note(){
 
 document.getElementById("createnote_button").addEventListener("click", create_note );
 
-
 function create_note() {
-
   // generate unique id on basis time and random number from 0 -100
   var randomnumber = Math.floor(Math.random()*100);
   var time = new Date().getUTCMilliseconds();
@@ -103,12 +94,13 @@ function create_note() {
       header.setAttribute("class", "header_body");
       note_frame.appendChild(header);
   // button
-      var cancel_button = document.createElement("BUTTON");
+      var cancel_button = document.createElement("div");
       cancel_button.setAttribute("id", timestamp+"_cb");
       cancel_button.setAttribute("class", "cancelbutton");
-      cancel_button.innerHTML="x";
+      cancel_button.innerHTML="X";
       note_frame.appendChild(cancel_button);
       cancel_button.addEventListener("click", cancel_note );
+
   // text area
       var text_area = document.createElement("TEXTAREA");
       text_area.setAttribute("class", "textinnote");
@@ -129,6 +121,7 @@ function create_note() {
   console.log( "stworzylem nowa karte "  )
   return timestamp;
 }
+
 
 function putTextInHTML(){
   var id_textArea = event.srcElement.id;
