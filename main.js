@@ -87,7 +87,7 @@ function create_note() {
   note_frame = document.createElement("div");
   note_frame.setAttribute("id", timestamp);
   note_frame.setAttribute("class", "framebody");
-  
+
   // header
       header = document.createElement("div");
       header.setAttribute("id", timestamp+"header");
@@ -111,8 +111,9 @@ function create_note() {
      
   body.appendChild(note_frame);
 
-  // setTimeout(function(){  document.getElementById(timestamp).style.width = 50; }, 3000);
-  // setTimeout(function(){  document.getElementById(timestamp).style.width = 250; }, 3000);
+  var random_0_10 = (Math.floor(Math.random()*10));
+  document.getElementById(timestamp).style.left = 100+random_0_10+random_0_10; 
+  document.getElementById(timestamp).style.top = 100+random_0_10; 
 
   document.getElementById(timestamp+"_textinnote").innerHTML="...";
 
