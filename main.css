@@ -1,11 +1,10 @@
 
 body{
     background-image: linear-gradient(rgb(61, 61, 61), rgb(192, 190, 190));
-    font-family: 'Times New Roman';
+    /* font-family: 'Times New Roman'; */
 }
 
 #createnote_button{
-
     color: rgb(145, 141, 141);
     padding: 50px 50px;
     text-align: center;
@@ -35,6 +34,13 @@ body{
     100% {color: grey;}
 }
 
+#motto{
+    padding: 1px 50px;
+    color: rgb(192, 191, 191);
+}
+
+
+
 .framebody {
     background: rgb(121, 122, 122);
     width: 250px;
@@ -45,12 +51,10 @@ body{
     left: 100px;
     top: 100px;
     z-index: 9;
+    transform: rotate(0deg);
     transition: transform 2s ease-in-out;
-
-    /* position: relative; */
-    /* transition-duration:4s; */
-    /* -webkit-transition-duration:4s; */
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    
 }
 
 .framebody:hover {

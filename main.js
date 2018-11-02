@@ -111,9 +111,16 @@ function create_note() {
      
   body.appendChild(note_frame);
 
+  // random position of new note
   var random_0_10 = (Math.floor(Math.random()*10));
   document.getElementById(timestamp).style.left = 100+random_0_10+random_0_10; 
   document.getElementById(timestamp).style.top = 100+random_0_10; 
+
+  // random rotate
+
+  var random_rotate = (Math.floor(Math.random()*10));
+  var rotate = "rotate(-"+random_rotate+"deg)";
+  document.getElementById(timestamp).style.transform = rotate ;
 
   document.getElementById(timestamp+"_textinnote").innerHTML="...";
 
