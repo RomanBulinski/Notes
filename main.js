@@ -2,6 +2,10 @@
 
 window.addEventListener('load', loadInfoFromLocalStore );
 
+var press = new Audio("resources/pres.wav");
+var lap = new Audio("resources/lap.wav");
+var move = new Audio("resources/move.wav");
+var throw1 = new Audio("resources/throw.wav");
 
 function loadInfoFromLocalStore(){
  
@@ -91,6 +95,7 @@ function cancel_note(){
   localStorage.removeItem(id_card+"_textinnote");
   localStorage.removeItem(id_card+"_top");
   localStorage.removeItem(id_card+"_left");
+  throw1.play();
 }
 
 document.getElementById("createnote_button").addEventListener("click", create_note );
@@ -155,6 +160,9 @@ function create_note() {
   // Make the DIV element draggable:
   dragElement(document.getElementById(timestamp));
   // return id for leater porpose
+
+  lap.play();
+
   console.log( "created new note "  )
   return timestamp;
 }
@@ -163,9 +171,10 @@ function create_note() {
 function putTextInHTML(){
   var id_textArea = event.srcElement.id;
   var text = document.getElementById(id_textArea).value+"";
+  press.play();
   document.getElementById(id_textArea).innerHTML = text;
   localStorage.setItem( id_textArea, text);
-  console.log( "wprowadzilem tekst na karte"  ) 
+  console.log( "puted text on note"  ) 
 }
 
 
@@ -197,6 +206,9 @@ function dragElement(elmnt) {
     document.onmouseup = closeDragElement;
     // call a function whenever the cursor moves:
     document.onmousemove = elementDrag;
+
+    move.play();
+
   }
 
   function elementDrag(e) {
