@@ -9,7 +9,7 @@ function loadInfoFromLocalStore(){
   
   console.log("local storage");
   for (var i = 0; i < localStorage.length; i++)   {
-    console.log(localStorage.key(i) + "=[" + localStorage.getItem(localStorage.key(i)) + "]");
+    // console.log(localStorage.key(i) + "=[" + localStorage.getItem(localStorage.key(i)) + "]");
   }
 
   var infoFromMemor = [];
@@ -17,44 +17,58 @@ function loadInfoFromLocalStore(){
   for ( var i = 0;  i < len-2; i++ ) {  
     for ( var j = i+1;  j < len-1; j++ ) {
       for ( var k = j+1;  k < len; k++) {
-        if( localStorage.key( i ).split("_")[0]===localStorage.key( j ).split("_")[0] && localStorage.key( i ).split("_")[0]===localStorage.key( k ).split("_")[0] ){ 
-        
-          var tempI = localStorage.key( i );
-          var tempJ = localStorage.key( j );
-          var tempK = localStorage.key( k );
-        
-          console.log( "znalazlem 3 pdoobne: "+tempI+" "+tempJ+" "+tempK );
+        for ( var z = k+1;  z < len; z++) {
 
-          var data = [];
-          data.push(tempI);
-          data.push(tempJ);
-          data.push(tempK);
+            if( localStorage.key( i ).split("_")[0]===localStorage.key( j ).split("_")[0] && 
+                localStorage.key( i ).split("_")[0]===localStorage.key( k ).split("_")[0] &&
+                localStorage.key( i ).split("_")[0]===localStorage.key( z ).split("_")[0]){ 
+            
+                  var tempI = localStorage.key( i );
+                  var tempJ = localStorage.key( j );
+                  var tempK = localStorage.key( k );
+                  var tempZ = localStorage.key( z );
+                
+                  console.log( "Found 4 similar: "+tempI+" "+tempJ+" "+tempK+" "+tempZ );
 
-          // wszystko co znadje dodaje w kolejnoeci do zewnetrznego arraya
-          for ( var a =0; a<data.length; a++ ) {
-            if( data[a].includes("top") ){  
-              infoFromMemor.push(localStorage.getItem(data[a]));
-            } 
-          }   
-          for ( var a =0; a<data.length;a++ ) {  
-            if( data[a].includes("left") ){
-              infoFromMemor.push(localStorage.getItem(data[a]));
+                  var data = [];
+                  data.push(tempI);
+                  data.push(tempJ);
+                  data.push(tempK);
+                  data.push(tempZ);
+
+                  // add in order to extarnal array
+                  for ( var a =0; a<data.length; a++ ) {
+                    if( data[a].includes("top") ){  
+                      infoFromMemor.push(localStorage.getItem(data[a]));
+                    } 
+                  }   
+                  for ( var a =0; a<data.length;a++ ) {  
+                    if( data[a].includes("left") ){
+                      infoFromMemor.push(localStorage.getItem(data[a]));
+                    }
+                  }
+                  for ( var a =0; a<data.length; a++ ) { 
+                    if( data[a].includes("textinnote") ){  
+                      infoFromMemor.push(localStorage.getItem(data[a]));
+                    }
+                  }
+                  for ( var a =0; a<data.length; a++ ) { 
+                    if( data[a].includes("titleNote") ){  
+                      infoFromMemor.push(localStorage.getItem(data[a]));
+                    }
+                  }
             }
-          }
-          for ( var a =0; a<data.length; a++ ) { 
-            if( data[a].includes("textinnote") ){  
-              infoFromMemor.push(localStorage.getItem(data[a]));
-            }
-          }
         }
       }
     } 
   }
   localStorage.clear();
-
+  
   if( infoFromMemor.length >2){
     for ( var i = 0; i<infoFromMemor.length; i++ ) {
+        // create new note
         var idNot = create_note();
+        // infiil note with data from memory
         document.getElementById(idNot).style.top = infoFromMemor[i];
         localStorage.setItem( idNot+"_top", infoFromMemor[i] );
         i++;
@@ -63,6 +77,9 @@ function loadInfoFromLocalStore(){
         i++;
         document.getElementById(idNot+"_textinnote").innerHTML=infoFromMemor[i];
         localStorage.setItem( idNot+"_textinnote", infoFromMemor[i]);
+        i++;
+        document.getElementById(idNot+"_titleNote").innerHTML=infoFromMemor[i];
+        localStorage.setItem( idNot+"_titleNote", infoFromMemor[i]);
     }
   }
 }
@@ -93,6 +110,16 @@ function create_note() {
       header.setAttribute("id", timestamp+"header");
       header.setAttribute("class", "header_body");
       note_frame.appendChild(header);
+
+  // title
+      titleNote = document.createElement("TEXTAREA");
+      titleNote.setAttribute("id", timestamp+"_titleNote");
+      titleNote.setAttribute("class", "titleNote");
+      titleNote.setAttribute("rows", 1 );
+      titleNote.setAttribute("maxlength", 17 );
+      note_frame.appendChild(titleNote);
+      titleNote.addEventListener("keypress", putTitleInHTML) 
+
   // button
       var cancel_button = document.createElement("div");
       cancel_button.setAttribute("id", timestamp+"_cb");
@@ -106,7 +133,6 @@ function create_note() {
       text_area.setAttribute("class", "textinnote");
       text_area.setAttribute("id", timestamp+"_textinnote");
       note_frame.appendChild(text_area);
-      
       text_area.addEventListener("keypress", putTextInHTML) 
      
   body.appendChild(note_frame);
@@ -117,11 +143,11 @@ function create_note() {
   document.getElementById(timestamp).style.top = 100+random_0_10; 
 
   // random rotate
-
   var random_rotate = (Math.floor(Math.random()*10));
   var rotate = "rotate(-"+random_rotate+"deg)";
   document.getElementById(timestamp).style.transform = rotate ;
 
+  document.getElementById(timestamp+"_titleNote").innerHTML="...";
   document.getElementById(timestamp+"_textinnote").innerHTML="...";
 
   localStorage.setItem( timestamp+"_top", note_frame.offsetTop+"px" );
@@ -129,7 +155,7 @@ function create_note() {
   // Make the DIV element draggable:
   dragElement(document.getElementById(timestamp));
   // return id for leater porpose
-  console.log( "stworzylem nowa karte "  )
+  console.log( "created new note "  )
   return timestamp;
 }
 
@@ -140,6 +166,15 @@ function putTextInHTML(){
   document.getElementById(id_textArea).innerHTML = text;
   localStorage.setItem( id_textArea, text);
   console.log( "wprowadzilem tekst na karte"  ) 
+}
+
+
+function putTitleInHTML(){
+  var id_title = event.srcElement.id;
+  var text = document.getElementById(id_title).value+"";
+  document.getElementById(id_title).innerHTML = text;
+  localStorage.setItem( id_title, text);
+  console.log( "wprowadzilem tytul na karte"  ) 
 }
 
 

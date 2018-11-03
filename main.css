@@ -37,9 +37,14 @@ body{
 #motto{
     padding: 1px 50px;
     color: rgb(192, 191, 191);
+    transform: rotate(5deg);
 }
 
-
+#motto2{
+    padding: 1px 50px;
+    color: rgb(192, 191, 191);
+    transform: rotate(-3deg);
+}
 
 .framebody {
     background: rgb(121, 122, 122);
@@ -51,10 +56,9 @@ body{
     left: 100px;
     top: 100px;
     z-index: 9;
-    transform: rotate(0deg);
+    /* transform: rotate(0deg); */
     transition: transform 2s ease-in-out;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    
 }
 
 .framebody:hover {
@@ -98,7 +102,6 @@ body{
     /* transform: scale(1.5); */
 }
 
-
 .textinnote {
     background: rgb(38, 39, 39);
     width: 100%;
@@ -108,10 +111,26 @@ body{
     text-align: left;
     /* text-decoration: none; */
     display: inline-block;
-    font-size: 16px; 
+    font-size: 13px; 
     border-radius: 10px; 
     z-index: 10;
-    
 }
 
+.titleNote{
 
+    /* background:rgb(82, 184, 96); */
+    background-color: transparent;
+    border: none;
+
+    font-size: 16px; 
+
+    width: 170px;
+    height: 23px;
+    resize: none;
+    overflow: hidden;
+
+    position: absolute;
+    top: 5px;
+    left: 10px;
+
+}
